@@ -1,0 +1,1 @@
+package com.fasttravel.service;import com.fasttravel.dto.BookingDTO.*;import java.util.*;public interface BookingService{Created create(Long userId,CreateRequest r,String ip);List<Map<String,Object>> history(Long userId);void confirmPayment(String bookingCode,String gatewayCode,String responseCode,long vnpAmount,String bankCode);void releaseExpired();}
