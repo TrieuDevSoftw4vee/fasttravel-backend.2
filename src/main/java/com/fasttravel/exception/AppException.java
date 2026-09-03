@@ -7,20 +7,20 @@ import lombok.Getter;
 public class AppException extends RuntimeException {
     private final HttpStatus status;
 
-    public AppException(HttpStatus s, String m) {
-        super(m);
-        status = s;
+    public AppException(HttpStatus status, String message) {
+        super(message);
+        this.status = status;
     }
 
-    public static AppException notFound(String m) {
-        return new AppException(HttpStatus.NOT_FOUND, m);
+    public static AppException notFound(String message) {
+        return new AppException(HttpStatus.NOT_FOUND, message);
     }
 
-    public static AppException bad(String m) {
-        return new AppException(HttpStatus.BAD_REQUEST, m);
+    public static AppException bad(String message) {
+        return new AppException(HttpStatus.BAD_REQUEST, message);
     }
 
-    public static AppException conflict(String m) {
-        return new AppException(HttpStatus.CONFLICT, m);
+    public static AppException conflict(String message) {
+        return new AppException(HttpStatus.CONFLICT, message);
     }
 }
