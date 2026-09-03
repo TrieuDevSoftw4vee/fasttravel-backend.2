@@ -18,4 +18,5 @@ public interface TripSeatRepository extends JpaRepository<TripSeat, Long> {
     @Modifying
     @Query("update TripSeat ts set ts.status=:available,ts.holdToken=null,ts.holdExpiresAt=null where ts.status=:held and ts.holdExpiresAt<:now")
     int releaseExpired(@Param("now") LocalDateTime now, @Param("available") TripSeat.Status available, @Param("held") TripSeat.Status held);
+    Optional<TripSeat> findByTripIdAndSeatId(Long tripId, Long seatId);
 }

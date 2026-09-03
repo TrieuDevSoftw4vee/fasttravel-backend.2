@@ -77,3 +77,4 @@ private Map<String,Object> view(Booking b){var m=new LinkedHashMap<String,Object
     }
 @Transactional public void releaseExpired(){seats.releaseExpired(LocalDateTime.now(),TripSeat.Status.AVAILABLE,TripSeat.Status.HELD);for(Booking b:bookings.findExpiredPending(LocalDateTime.now())){b.setStatus(Booking.Status.EXPIRED);bookings.save(b);}}
 }
+
