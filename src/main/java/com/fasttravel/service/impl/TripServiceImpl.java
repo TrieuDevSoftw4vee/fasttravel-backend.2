@@ -1,18 +1,19 @@
 package com.fasttravel.service.impl;
 
-import com.fasttravel.dao.TripDAO;
 import com.fasttravel.entity.Seat;
 import com.fasttravel.entity.Station;
 import com.fasttravel.entity.Trip;
 import com.fasttravel.entity.TripSeat;
 import com.fasttravel.exception.AppException;
 import com.fasttravel.repository.StationRepository;
+import com.fasttravel.repository.TripRepository;
 import com.fasttravel.repository.TripSeatRepository;
 import com.fasttravel.service.TripService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class TripServiceImpl implements TripService {
 
-    private final TripDAO trips;
+    // Thay thế TripDAO bằng TripRepository
+    private final TripRepository trips;
     private final StationRepository stations;
     private final TripSeatRepository tripSeats;
 
@@ -111,8 +113,13 @@ public class TripServiceImpl implements TripService {
             Long destination,
             LocalDate date
     ) {
+        // Chuyển LocalDate thành khoảng thời gian trong ngày để tìm kiếm
+        LocalDateTime startOfDay = date.atStartOfDay();
+        LocalDateTime endOfDay = date.atTime(23, 59, 59);
+
+        // Gọi hàm searchTrips từ TripRepository
         return trips
-                .search(origin, destination, date)
+                .searchTrips(origin, destination, startOfDay, endOfDay)
                 .stream()
                 .map(this::trip)
                 .filter(item -> ((Number) item.get("availableSeats")).longValue() > 0)
@@ -128,10 +135,7 @@ public class TripServiceImpl implements TripService {
                         )
                 );
 
-        Map<String, Object> result =
-                new LinkedHashMap<>(trip(trip));
-
-        return result;
+        return new LinkedHashMap<>(trip(trip));
     }
 
     @Override
@@ -154,7 +158,8 @@ public class TripServiceImpl implements TripService {
 
     private Map<String, Object> tripSeat(
             TripSeat tripSeat
-    ) {
+    )
+    {
         Seat seat = tripSeat.getSeat();
 
         Map<String, Object> result = new LinkedHashMap<>();
