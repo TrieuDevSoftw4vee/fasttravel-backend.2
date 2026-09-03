@@ -8,6 +8,7 @@ import lombok.*;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class Station extends BaseEntity {
     @ManyToOne(optional = false)
     @JoinColumn(name = "province_id")
