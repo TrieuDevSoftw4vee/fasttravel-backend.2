@@ -15,6 +15,9 @@ public class VehicleServiceImpl implements VehicleService {
     @Autowired
     private VehicleRepository vehicleRepository;
 
+    @Autowired
+    private SeatGenerationService seatGenerationService;
+
     private static final String LICENSE_PLATE_REGEX = "^[0-9]{2}[A-Z][0-9]?-[0-9]{3}\\.[0-9]{2}$|^[0-9]{2}[A-Z][0-9]?-[0-9]{4,5}$";
 
     @Override
@@ -45,7 +48,12 @@ public class VehicleServiceImpl implements VehicleService {
         if (vehicle.getTotalSeats() < 4 || vehicle.getTotalSeats() > 60) {
             throw new RuntimeException("Tổng số ghế phải nằm trong khoảng từ 4 đến 60!");
         }
-        return vehicleRepository.save(vehicle);
+
+        // Lưu xe và tự động sinh ghế tương ứng
+        Vehicle savedVehicle = vehicleRepository.save(vehicle);
+        seatGenerationService.generateSeatsForVehicle(savedVehicle);
+
+        return savedVehicle;
     }
 
     @Override
