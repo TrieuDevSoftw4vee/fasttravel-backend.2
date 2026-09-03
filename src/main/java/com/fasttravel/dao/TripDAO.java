@@ -1,0 +1,1 @@
+package com.fasttravel.dao;import com.fasttravel.entity.Trip;import java.time.LocalDate;import java.util.List;public interface TripDAO extends BaseDAO<Trip,Long>{List<Trip> search(Long origin,Long destination,LocalDate date);}

@@ -1,0 +1,1 @@
+package com.fasttravel.dao;import com.fasttravel.entity.Booking;import java.time.LocalDateTime;import java.util.*;public interface BookingDAO extends BaseDAO<Booking,Long>{Optional<Booking> findByCode(String code);List<Booking> findByUser(Long userId);List<Booking> findExpiredPending(LocalDateTime now);}

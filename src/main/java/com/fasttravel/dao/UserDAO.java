@@ -1,0 +1,1 @@
+package com.fasttravel.dao;import com.fasttravel.entity.User;import java.util.Optional;public interface UserDAO extends BaseDAO<User,Long>{Optional<User> findByEmail(String email);boolean exists(String email,String phone);}
