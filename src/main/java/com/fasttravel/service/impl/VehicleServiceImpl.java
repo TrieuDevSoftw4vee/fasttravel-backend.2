@@ -2,6 +2,7 @@ package com.fasttravel.service.impl;
 
 import com.fasttravel.entity.Vehicle;
 import com.fasttravel.repository.VehicleRepository;
+import com.fasttravel.service.SeatGenerationService;
 import com.fasttravel.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
